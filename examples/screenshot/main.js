@@ -9,6 +9,8 @@ async function getScreenshot() {
   await page.goto(url, {
     waitUntil: 'networkidle2'
   });
+  // await page.listeners(event) -might be useful for finding the listeners
+  // await page.eventNames() -will that return the listeners?
   await page.screenshot({path: 'example.png', fullPage: true});
 
   console.log("Screenshot taken");
