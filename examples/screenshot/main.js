@@ -12,7 +12,7 @@ async function getScreenshot() {
   });
   // await page.listeners(event) -might be useful for finding the listeners
   // await page.eventNames() -will that return the listeners?
-  // await page.screenshot({path: 'example.png', fullPage: true});
+  await page.screenshot({path: 'example.png', fullPage: true});
 
   // let bodyHTML = await page.evaluate(() => document.body.innerHTML);
   // console.log(bodyHTML);
@@ -22,9 +22,18 @@ async function getScreenshot() {
 
   await page.waitForSelector('a');
 
-  const anchors = await page.evaluate(() => [...document.querySelectorAll('a')].map(elem => elem.innerText));
-  console.log(anchors)
+  let num = 1
 
+  await page.evaluate(async() => {
+    let elements = document.getElementsByName("tag-list")
+    let wiw = elements[elements.length - 1].children
+    for (let el of wiw) {
+      el.click()
+      let name = "img"+num+".png"
+      await page.screenshot({path: name, fullPage: true})
+      await page.goto(url)
+    }
+  })
   console.log("Screenshot taken");
   await browser.close();
 }
